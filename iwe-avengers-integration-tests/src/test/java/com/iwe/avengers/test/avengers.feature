@@ -4,6 +4,12 @@ Background:
 
 * url 'https://2117qp1ef3.execute-api.eu-west-2.amazonaws.com/Dev'
 
+Scenario: Should return not found Avenger
+Given path 'avengers','not-found-id'
+When method get
+Then status 404
+
+
 Scenario: Get Avenger by Id
 Given path 'avengers','aaaa-bbbb-cccc-dddd'
 When method get
@@ -19,18 +25,18 @@ And match response == {id: '#string', name: 'Iron Man', secretIdentity: 'Tony St
 
 Scenario: Must return 400 for invalid creation payload #Consulta
 Given path 'avengers'
-And request {name: 'Iron Man', secretIdentity: 'Tony Stark'}
+And request {secretIdentity: 'Tony Stark'}
 When method post
 Then status 400
 
 Scenario: Put Avenger by Id
-Given path 'avengers','aaaa-bbbb-cccc-dddd' #como já informei o id no path ele não precisa estar no request
-And request {name: 'Iron Man', secretIdentity: 'Tony Stark'} #request com letra minuscula
+Given path 'avengers','aaaa-bbbb-cccc-dddd' 
+And request {name: 'Iron Man', secretIdentity: 'Tony Stark'} 
 When method put
 Then status 200
-And match $ == {id: '#string', name: 'Iron Man', secretIdentity: 'Tony Stark'}
+And match response == {id: '#string', name: 'Iron Man', secretIdentity: 'Tony Stark'}
 
 Scenario: Delete Avenger by Id
-Given path 'avengers','aaaa-bbbb-cccc-dddd' #Estou informando o Id na deleção
+Given path 'avengers','aaaa-bbbb-cccc-dddd' 
 When method delete
 Then status 204
