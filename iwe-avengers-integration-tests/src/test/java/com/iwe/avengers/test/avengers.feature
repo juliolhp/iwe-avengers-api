@@ -4,6 +4,10 @@ Background:
 
 * url 'https://2117qp1ef3.execute-api.eu-west-2.amazonaws.com/Dev'
 
+Scenario: Should Return invalid acess
+Given path 'avengers','any-id'
+Then Status 401
+
 Scenario: Should return not found Avenger
 Given path 'avengers','not-found-id'
 When method get
@@ -41,14 +45,34 @@ And request {secretIdentity: 'Tony Stark'}
 When method post
 Then status 400
 
-Scenario: Put Avenger by Id
-Given path 'avengers','aaaa-bbbb-cccc-dddd' 
+Scenario: Create and Update Avenger by Id
+Given path 'avengers'
+And request {name: 'Iron', secretIdentity: 'Tony'}
+When method post
+Then status 201
+And match response == {id: '#string', name: 'Iron', secretIdentity: 'Tony'}
+
+* def savedAvenger = response
+
+Given path 'avengers', savedAvenger.id
 And request {name: 'Iron Man', secretIdentity: 'Tony Stark'} 
 When method put
 Then status 200
 And match response == {id: '#string', name: 'Iron Man', secretIdentity: 'Tony Stark'}
 
-Scenario: Delete Avenger by Id
-Given path 'avengers','aaaa-bbbb-cccc-dddd' 
+Scenario: Create, Delete and Get Avenger by Id
+Given path 'avengers'
+And request {name: 'Iron Man', secretIdentity: 'Tony Stark'}
+When method post
+Then status 201
+And match response == {id: '#string', name: 'Iron Man', secretIdentity: 'Tony Stark'}
+
+* def savedAvenger = response
+
+Given path 'avengers',savedAvenger.id 
 When method delete
 Then status 204
+
+Given path 'avengers', savedAvenger.id
+When method get
+Then status 404

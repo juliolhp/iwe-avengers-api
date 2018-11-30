@@ -54,4 +54,11 @@ public class Avenger {
 		this.secretIdentity = secretIdentity;
 	}
 
+	@Override
+	public String toString() {
+		return "Avenger [id=" + id + ", name=" + name + ", secretIdentity=" + secretIdentity + "]";
+	}
+	
+	
+
 }
