@@ -18,15 +18,15 @@ public class TokenGenerator {
 		
 		String authresult = null;
 
-		final String clientId = "494kpkmh3mk6rpp38c991l608m";
-		final String userPoolId = "us-east-1_IjEeQEsVj";
+		final String clientId = "6q4r6tejl0cdbeaout5c8elfu3";
+		final String userPoolId = "eu-west-2_FPfeogqpH";
 
 		final AuthenticationHelper auth = new AuthenticationHelper(userPoolId, clientId);
 
 		final InitiateAuthRequest initiateAuthRequest = new InitiateAuthRequest();
 		initiateAuthRequest.setAuthFlow(AuthFlowType.USER_SRP_AUTH);
 		initiateAuthRequest.setClientId(clientId);
-		initiateAuthRequest.addAuthParametersEntry("USERNAME", "roger");
+		initiateAuthRequest.addAuthParametersEntry("USERNAME", "Julio");
 
 		//O conceito de algoritmos de chave pública é que você tem duas chaves, um público que está disponível para todos e um que é privado e conhecido apenas por você
 		// nesse passo estamos passando uma chave pública gerada a partir de calculos e criptografia
@@ -34,7 +34,7 @@ public class TokenGenerator {
 
 		final AnonymousAWSCredentials awsCreds = new AnonymousAWSCredentials();
 		final AWSCognitoIdentityProvider cognitoIdentityProvider = AWSCognitoIdentityProviderClientBuilder.standard()
-				.withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion(Regions.US_EAST_1).build();
+				.withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion(Regions.EU_WEST_2).build();
 		
 		final InitiateAuthResult initiateAuthResult = cognitoIdentityProvider.initiateAuth(initiateAuthRequest);
 
